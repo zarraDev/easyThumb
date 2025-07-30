@@ -1,9 +1,66 @@
+import { Trash } from "lucide-react";
+const images = Array.from({ length: 33 }, (_, i) => {
+  const aspectRatios = ['2:3', '1:1', '3:2'];
+  const urls = [
+    "https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image.jpg",      // 2:3
+    "https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-3.jpg",    // 1:1
+    "https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-11.jpg"    // 3:2
+  ];
+  const idx = i % 3;
+return {
+    id: `img-${i}`,
+    src: urls[idx],
+    alt: `Image ${i + 1}`,
+    aspectRatio: aspectRatios[idx] as '2:3' | '1:1' | '3:2',
+    title: `Image ${i + 1}`,
+    likes: Math.floor(Math.random() * 100),
+    username: `user${i + 1}`,
+    uploadDate: new Date(Date.now() - Math.floor(Math.random() * 30 * 24 * 60 * 60 * 1000)).toISOString().split('T')[0] // random date in last 30 days
+};
+});
 
+export default function Uploads() {
+    // Group images by uploadDate
+    const groupedImages: { [date: string]: typeof images } = {};
+    images.forEach(img => {
+        if (!groupedImages[img.uploadDate]) {
+            groupedImages[img.uploadDate] = [];
+        }
+        groupedImages[img.uploadDate].push(img);
+    });
 
-export default function Uploads(){
-    return(
-        <>
-            Uploads
-        </>
-    )
+    // Sort dates descending
+    const sortedDates = Object.keys(groupedImages).sort((a, b) => new Date(b).getTime() - new Date(a).getTime());
+
+    return (
+        <div className="w-full lg:p-8 md:p-6 p-4">
+            {sortedDates.map(date => (
+                <div key={date} className="mb-8">
+                    <h3 className="font-bold mb-4 text-gray-700 dark:text-gray-200">
+                        {new Date(date).toLocaleDateString('en-GB')}
+                    </h3>
+                    <div className="flex flex-wrap gap-4">
+                        {groupedImages[date].map(image => (
+                            <div key={image.id} className="group relative overflow-hidden" >
+                              <div className="w-64 h-64">
+                                <img
+                                  src={image.src}
+                                  alt={image.alt}
+                                  className="w-full h-full object-cover rounded-sm"
+                                />
+                              </div>
+                              <div className="absolute inset-0 flex flex-col justify-end p-2">
+                                <div className="flex justify-end items-center mt-2">
+                                    <span className="flex items-center bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:text-red-400 rounded-full p-2">
+                                      <Trash className="h-4 w-4" fill="none" />
+                                    </span>
+                                </div>
+                              </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            ))}
+        </div>
+    );
 }

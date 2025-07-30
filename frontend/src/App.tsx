@@ -8,7 +8,6 @@ import PasswordReset from "./Pages/Auth/ResetPassword";
 import Sidebar from "./Layouts/SideBare";
 
 // Pages
-import HomePage from "./Pages/Index";
 import Explore from "./Pages/Explore";
 import Create from "./Pages/Create";
 import Media from "./Pages/Media";
@@ -16,10 +15,12 @@ import Favorites from "./Pages/Favorites";
 import Uploads from "./Pages/Uploads";
 import Trash from "./Pages/Trash";
 import Settings from "./Pages/Settings";
+import ThumbnailDetails from"./Pages/ThumbDetails";
 
 // Erreurs
 import NotFound from "./Pages/NotFound";
 import Forbidden from "./Pages/Forbidden";
+import { Pricing } from "./Pages/pricing";
 
 
 function App() {
@@ -31,7 +32,6 @@ function App() {
       <Route path="password-reset" element={<PasswordReset />} />
 
       {/* <Route element={<ProtectedRoute />}> */}
-      <Route index element={<HomePage />} />
       <Route path="/" element={<Sidebar />}>
         <Route path="explore" element={<Explore />} />
         <Route path="create" element={<Create />} />
@@ -40,8 +40,8 @@ function App() {
         <Route path="uploads" element={<Uploads />} />
         <Route path="trash" element={<Trash />} />
         <Route path="setting" element={<Settings />} />
-
-        
+        <Route path="thumb-details/:id" element={<ThumbnailDetails />} />
+        <Route path="pricing" element={<Pricing />} />
       </Route>
 
       <Route path="403" element={<Forbidden />} />

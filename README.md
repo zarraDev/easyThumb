@@ -1,1 +1,1 @@
-# easyThumb
+# EasyThumb
